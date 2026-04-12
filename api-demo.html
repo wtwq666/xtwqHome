@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前后端联调演示 - xtwqHome</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .api-card { background: #0b1220; padding: 20px; border-radius: 12px; margin-top: 16px; }
+    .api-card h3 { color: var(--accent); margin-bottom: 10px; font-size: 1.1rem; }
+    .api-url { font-family: monospace; color: #a5b4fc; background: #1e293b; padding: 8px 12px; border-radius: 6px; display: inline-block; margin-bottom: 10px; }
+    .api-result { font-family: monospace; color: #86efac; background: #0b1220; padding: 14px; border-radius: 8px; white-space: pre-wrap; min-height: 60px; }
+    .loading { color: var(--muted); font-style: italic; }
+    .error { color: #f87171; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🌐 前后端联调演示</h1>
+      <p class="subtitle">前端页面 + Vercel Serverless API（同一项目部署）</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>架构说明</h2>
+        <p>这个页面托管在 Vercel 上，它调用的 API 也运行在 Vercel 上。</p>
+        <p>因为前后端共享同一个域名，所以<b>不存在跨域问题</b>，也<b>不需要内网穿透</b>。</p>
+      </section>
+
+      <section class="card">
+        <h2>API 测试 1：Hello</h2>
+        <div class="api-url">GET /api/hello</div>
+        <button class="btn primary" onclick="callHello()">发送请求</button>
+        <div class="api-card">
+          <h3>响应结果</h3>
+          <div id="hello-result" class="api-result loading">点击按钮发起请求...</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>API 测试 2：Server Time</h2>
+        <div class="api-url">GET /api/time</div>
+        <button class="btn primary" onclick="callTime()">发送请求</button>
+        <div class="api-card">
+          <h3>响应结果</h3>
+          <div id="time-result" class="api-result loading">点击按钮发起请求...</div>
+        </div>
+      </section>
+
+      <div class="links" style="justify-content:center; margin-top: 10px;">
+        <a href="./index.html" class="btn">🏠 返回首页</a>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    async function callHello() {
+      const resultDiv = document.getElementById('hello-result');
+      resultDiv.textContent = '请求中...';
+      resultDiv.className = 'api-result loading';
+      try {
+        const res = await fetch('/api/hello');
+        const data = await res.json();
+        resultDiv.textContent = JSON.stringify(data, null, 2);
+        resultDiv.className = 'api-result';
+      } catch (err) {
+        resultDiv.textContent = '请求失败：' + err.message;
+        resultDiv.className = 'api-result error';
+      }
+    }
+
+    async function callTime() {
+      const resultDiv = document.getElementById('time-result');
+      resultDiv.textContent = '请求中...';
+      resultDiv.className = 'api-result loading';
+      try {
+        const res = await fetch('/api/time');
+        const data = await res.json();
+        resultDiv.textContent = JSON.stringify(data, null, 2);
+        resultDiv.className = 'api-result';
+      } catch (err) {
+        resultDiv.textContent = '请求失败：' + err.message;
+        resultDiv.className = 'api-result error';
+      }
+    }
+  </script>
+</body>
+</html>
