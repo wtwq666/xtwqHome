@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>导航模块演示 - xtwqHome</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    nav { display: flex; gap: 20px; justify-content: center; padding: 20px; background: rgba(56,189,248,0.1); border-radius: 12px; margin-top: 20px; }
+    nav a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    nav a:hover { text-decoration: underline; }
+    .code-block { background: #0b1220; padding: 20px; border-radius: 12px; overflow-x: auto; margin-top: 20px; font-family: monospace; color: #a5b4fc; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🧭 导航模块演示</h1>
+      <p class="subtitle">由 AI-NAV 助手生成的 nav.js 模块展示</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>渲染效果</h2>
+        <div id="nav-container"></div>
+      </section>
+
+      <section class="card">
+        <h2>源代码 (nav.js)</h2>
+        <pre class="code-block" id="code"></pre>
+      </section>
+
+      <div class="links" style="justify-content:center; margin-top: 10px;">
+        <a href="./index.html" class="btn">🏠 返回首页</a>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const navItems = [
+      { name: "Home", path: "/" },
+      { name: "Guide", path: "/guide" },
+      { name: "About", path: "/about" }
+    ];
+    document.getElementById('nav-container').innerHTML = '<nav>' + navItems.map(i => `<a href="${i.path}">${i.name}</a>`).join('') + '</nav>';
+
+    fetch('./nav.js')
+      .then(r => r.text())
+      .then(t => document.getElementById('code').textContent = t);
+  </script>
+</body>
+</html>
