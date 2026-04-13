@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
+from datetime import datetime
 
 app = FastAPI()
 
@@ -13,11 +14,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+# 所有 API 路由统一加上 /api 前缀
+router = APIRouter(prefix="/api")
+
+@router.get("/")
 def read_root():
     return {"message": "Hello from FastAPI on Vercel! 🎉", "framework": "FastAPI"}
 
-@app.get("/hello")
+@router.get("/hello")
 def hello():
     return {
         "message": "Hello from FastAPI!",
@@ -26,9 +30,8 @@ def hello():
         "language": "Python"
     }
 
-@app.get("/time")
+@router.get("/time")
 def get_time():
-    from datetime import datetime
     now = datetime.now()
     return {
         "utc": now.isoformat(),
@@ -36,6 +39,8 @@ def get_time():
         "timezone": "Asia/Shanghai",
         "tip": "这个接口由 FastAPI 运行在 Vercel 服务器上"
     }
+
+app.include_router(router)
 
 # Vercel Serverless Function 入口
 handler = Mangum(app)
