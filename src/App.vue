@@ -34,7 +34,7 @@ async function callTime() {
 <template>
   <div class="container">
     <header>
-      <h1>🚀 xtwqHome</h1>
+      <h1>🏠 小桐大王的家</h1>
       <p class="subtitle">Vue 3 + Vite + FastAPI 全栈部署演示</p>
     </header>
 
