@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 
 app = FastAPI()
 
@@ -35,3 +36,6 @@ def get_time():
         "timezone": "Asia/Shanghai",
         "tip": "这个接口由 FastAPI 运行在 Vercel 服务器上"
     }
+
+# Vercel Serverless Function 入口
+handler = Mangum(app)
