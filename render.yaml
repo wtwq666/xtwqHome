@@ -1,0 +1,20 @@
+# Render.com 一键部署后端（可选）
+# https://render.com → New Blueprint → 连接本仓库
+services:
+  - type: web
+    name: bunny-home-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: STORAGE_BACKEND
+        value: oss
+      # 在 Render 控制台补充（勿写真实密钥进 Git）：
+      # PG_HOST, PG_PORT, PG_DATABASE, PG_USER, PG_PASSWORD
+      # OSS_ACCESS_KEY_ID, OSS_ACCESS_KEY_SECRET
+      # OSS_BUCKET, OSS_REGION, OSS_PREFIX
+      # CORS_ORIGINS=https://xxx.vercel.app
